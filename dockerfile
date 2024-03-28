@@ -8,7 +8,7 @@ ENV POSTGRES_DB=data
 
 # Copy the SQL file into the Docker container
 COPY database.sql /docker-entrypoint-initdb.d/
-#COPY examples.sql /docker-entrypoint-initdb.d/
+COPY examples.sql /docker-entrypoint-initdb.d/
 
 # Expose the PostgreSQL port
 EXPOSE 5432
