@@ -1,18 +1,61 @@
 --CREATE SCHEMA public;
 
-CREATE TYPE DOCUMMENT_TYPE AS ENUM ('CC', 'CE', 'TI', 'PP');
-CREATE TYPE ROLE AS ENUM ('ADMIN', 'USER', 'EMPLOYEE');
-CREATE TYPE VEHICLE_TYPE AS ENUM ('BIKE', 'SCOOTER');
-CREATE TYPE VEHICLE_STATUS AS ENUM ('AVAILABLE', 'UNAVAILABLE');
-CREATE TYPE STATION_STATUS AS ENUM ('AVAILABLE', 'UNAVAILABLE');
+CREATE TABLE 
+  "documment_type" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+  "vehicle_type" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+  "vehicle_status" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+  "station_status" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+  "role" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+INSERT INTO "role" ("name") VALUES ('USER');
+INSERT INTO "role" ("name") VALUES ('ADMIN');
+
+INSERT INTO "documment_type" ("name") VALUES ('CC');
+INSERT INTO "documment_type" ("name") VALUES ('CE');
+INSERT INTO "documment_type" ("name") VALUES ('TI');
+INSERT INTO "documment_type" ("name") VALUES ('PP');
+
+INSERT INTO "vehicle_type" ("name") VALUES ('BIKE');
+INSERT INTO "vehicle_type" ("name") VALUES ('SCOOTER');
+
+INSERT INTO "vehicle_status" ("name") VALUES ('AVAILABLE');
+INSERT INTO "vehicle_status" ("name") VALUES ('UNAVAILABLE');
+
+INSERT INTO "station_status" ("id", "name") VALUES (1, 'OPEN');
+INSERT INTO "station_status" ("id", "name") VALUES (2, 'CLOSE');
+INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MANTEINANCE');
 
 CREATE TABLE 
   "documment" (
     "id" BIGSERIAL PRIMARY KEY,
-    "documment_type" DOCUMMENT_TYPE,
+    "documment_type_id" int,
     "documment_number" VARCHAR(255),
     "front_image" VARCHAR(255),
-    "back_image" VARCHAR(255)
+    "back_image" VARCHAR(255),
+    FOREIGN KEY ("documment_type_id") references "documment_type"("id")
   );
 
 CREATE TABLE
@@ -55,8 +98,9 @@ CREATE TABLE
   "user_role" (
     "id" BIGSERIAL PRIMARY KEY,
     "user_id" INT,
-    "role" ROLE,
-    FOREIGN KEY ("user_id") REFERENCES "user"("id")
+    "role_id" int,
+    FOREIGN KEY ("user_id") REFERENCES "user"("id"),
+    FOREIGN KEY ("role_id") REFERENCES "role"("id")
   );
 
 CREATE TABLE 
@@ -66,18 +110,23 @@ CREATE TABLE
     "address" VARCHAR(255),
     "latitude" DECIMAL(9,6),
     "longitude" DECIMAL(9,6),
-    "status" STATION_STATUS
+    "station_status_id" INT,
+    "capacity" INT,
+    "last_manteinance" DATE,
+    FOREIGN KEY ("station_status_id") REFERENCES "station_status"("id")
   );
 
 CREATE TABLE
   "vehicle" (
     "id" BIGSERIAL PRIMARY KEY,
-    "type" VEHICLE_TYPE,
-    "status" VEHICLE_STATUS,
+    "vehicle_type_id" INT ,
+    "vehicle_status_id" INT,
     "electric" BOOLEAN,
     "battery" INT,
     "station_id" INT,
-    FOREIGN KEY ("station_id") REFERENCES "station"("id")
+    FOREIGN KEY ("station_id") REFERENCES "station"("id"),
+    FOREIGN KEY ("vehicle_type_id") REFERENCES "vehicle_type"("id"),
+    FOREIGN KEY ("vehicle_status_id") REFERENCES "vehicle_status"("id")
   );
 
 CREATE TABLE
@@ -115,28 +164,6 @@ CREATE TABLE
     "geojson" JSON,
     FOREIGN KEY ("trip_id") REFERENCES "trip"("id")
   );
-
-
-INSERT INTO "documment" ("id", "documment_type", "documment_number", "front_image", "back_image") VALUES (1, 'CC', '1091683299', '', '');
-
-INSERT INTO "referrer" ("id", "first_name", "last_name", "documment_id", "phone_number", "email") VALUES (1, 'a', 'b', 1, '', '');
-
-INSERT INTO "user_credential" ("id", "username", "password") VALUES (1,'user','password');
-
-INSERT INTO "user" ("id", "name", "email", "phone_number", "documment_id", "birth_date", "user_credential_id", "referrer_id")
-VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1, 1);
-INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "status")
-VALUES (1, 'Uis', 'NULL', 7.140709, -73.121012, 'AVAILABLE');
-
-INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "status")
-VALUES (2, 'Ceis', 'NULL', 7.141387, -73.123342, 'AVAILABLE');
-
-INSERT INTO "vehicle" ("id", "type", "status", "electric", "battery", "station_id")
-VALUES (1, 'SCOOTER', 'UNAVAILABLE', true, 80, 1);
-
-INSERT INTO "trip" ("id", "user_id", "vehicle_id", "start_date", "end_date", "start_station_id", "end_station_id", "price", "points", "comments")
-VALUES (1, 1, 1, TIMESTAMP '2023-05-15 12:04:49.057', TIMESTAMP '2023-05-15 12:07:21.428', 1, 2, 10, 5, 'NULL');
-
 
 --DROP SCHEMA IF EXISTS public CASCADE;
 --CREATE SCHEMA public;
