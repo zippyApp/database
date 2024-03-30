@@ -2,14 +2,15 @@ INSERT INTO "documment" ("id", "documment_type_id", "documment_number", "front_i
 
 INSERT INTO "referrer" ("id", "first_name", "last_name", "documment_id", "phone_number", "email") VALUES (1, 'a', 'b', 1, '', '');
 
-INSERT INTO "user_credential" ("id", "username", "password") VALUES (1,'user','password');
-
-INSERT INTO "user" ("id", "name", "email", "phone_number", "documment_id", "birth_date", "user_credential_id", "referrer_id")
+INSERT INTO "user" ("id", "name", "email", "phone_number", "documment_id", "birth_date", "referrer_id")
 VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1, 1);
-INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_manteinance")
+
+INSERT INTO "user_credential" ("id", "username", "password", "role_id", "user_id") VALUES (1,'user','password', 1, 1);
+
+INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_maintenance")
 VALUES (1, 'Uis', 'NULL', 7.140709, -73.121012, 1,16, TIMESTAMP '2023-05-15 12:04:49.057');
 
-INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_manteinance")
+INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_maintenance")
 VALUES (2, 'Ceis', 'NULL', 7.141387, -73.123342, 1, 16, TIMESTAMP '2023-05-15 12:04:49.057');
 
 INSERT INTO "vehicle" ("vehicle_type_id", "vehicle_status_id", "electric", "battery", "station_id")
