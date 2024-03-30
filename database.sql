@@ -1,7 +1,7 @@
 --CREATE SCHEMA public;
 
 CREATE TABLE 
-  "documment_type" (
+  "document_type" (
     "id" SERIAL PRIMARY KEY,
     "name" VARCHAR(255)
   );
@@ -33,10 +33,10 @@ CREATE TABLE
 INSERT INTO "role" ("name") VALUES ('USER');
 INSERT INTO "role" ("name") VALUES ('ADMIN');
 
-INSERT INTO "documment_type" ("name") VALUES ('CC');
-INSERT INTO "documment_type" ("name") VALUES ('CE');
-INSERT INTO "documment_type" ("name") VALUES ('TI');
-INSERT INTO "documment_type" ("name") VALUES ('PP');
+INSERT INTO "document_type" ("name") VALUES ('CC');
+INSERT INTO "document_type" ("name") VALUES ('CE');
+INSERT INTO "document_type" ("name") VALUES ('TI');
+INSERT INTO "document_type" ("name") VALUES ('PP');
 
 INSERT INTO "vehicle_type" ("name") VALUES ('BIKE');
 INSERT INTO "vehicle_type" ("name") VALUES ('SCOOTER');
@@ -46,16 +46,16 @@ INSERT INTO "vehicle_status" ("name") VALUES ('UNAVAILABLE');
 
 INSERT INTO "station_status" ("id", "name") VALUES (1, 'OPEN');
 INSERT INTO "station_status" ("id", "name") VALUES (2, 'CLOSE');
-INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MANTEINANCE');
+INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MAINTENANCE');
 
 CREATE TABLE 
-  "documment" (
+  "document" (
     "id" BIGSERIAL PRIMARY KEY,
-    "documment_type_id" int,
-    "documment_number" VARCHAR(255),
+    "document_type_id" int,
+    "document_number" VARCHAR(255),
     "front_image" VARCHAR(255),
     "back_image" VARCHAR(255),
-    FOREIGN KEY ("documment_type_id") references "documment_type"("id")
+    FOREIGN KEY ("document_type_id") references "document_type"("id")
   );
 
 CREATE TABLE
@@ -63,19 +63,12 @@ CREATE TABLE
     "id" BIGSERIAL PRIMARY KEY,
     "first_name" VARCHAR(255),
     "last_name" VARCHAR(255),
-    "documment_id" INT,
+    "document_id" INT,
     "phone_number" VARCHAR(255),
     "email" VARCHAR(255),
-    FOREIGN KEY ("documment_id") references "documment"("id")
+    FOREIGN KEY ("document_id") references "document"("id")
   );
 
-
-CREATE TABLE
-  "user_credential" (
-    "id" BIGSERIAL PRIMARY KEY,
-    "username" VARCHAR(255) UNIQUE,
-    "password" VARCHAR(255)
-  );
 
 CREATE TABLE
   "user" (
@@ -83,25 +76,25 @@ CREATE TABLE
     "name" VARCHAR(255),
     "email" VARCHAR(255) UNIQUE,
     "phone_number" VARCHAR(255),
-    "documment_id" INT,
+    "document_id" INT,
     "birth_date" DATE,
-    "user_credential_id" INT UNIQUE,
     "referrer_id" INT,
     FOREIGN KEY ("referrer_id") REFERENCES "referrer"("id"),
-    FOREIGN KEY ("documment_id") REFERENCES "documment"("id"),
-    FOREIGN KEY ("user_credential_id") REFERENCES "user_credential"("id")
+    FOREIGN KEY ("document_id") REFERENCES "document"("id")
+  );
+
+CREATE TABLE
+  "user_credential" (
+    "id" BIGSERIAL PRIMARY KEY,
+    "user_id" BIGINT,
+    "username" VARCHAR(255) UNIQUE,
+    "password" VARCHAR(255),
+    "role_id" INT,
+    FOREIGN KEY ("role_id") REFERENCES "role"("id"),
+    FOREIGN KEY ("user_id") REFERENCES "user"("id")
   );
 
 CREATE INDEX idx_email ON "user"("email");
-
-CREATE TABLE
-  "user_role" (
-    "id" BIGSERIAL PRIMARY KEY,
-    "user_id" INT,
-    "role_id" int,
-    FOREIGN KEY ("user_id") REFERENCES "user"("id"),
-    FOREIGN KEY ("role_id") REFERENCES "role"("id")
-  );
 
 CREATE TABLE 
   "station" (
@@ -112,7 +105,7 @@ CREATE TABLE
     "longitude" DECIMAL(9,6),
     "station_status_id" INT,
     "capacity" INT,
-    "last_manteinance" DATE,
+    "last_maintenance" DATE,
     FOREIGN KEY ("station_status_id") REFERENCES "station_status"("id")
   );
 
