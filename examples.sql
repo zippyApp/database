@@ -3,7 +3,7 @@ INSERT INTO "document" ("id", "document_type_id", "document_number", "front_imag
 INSERT INTO "referrer" ("id", "first_name", "last_name", "document_id", "phone_number", "email") VALUES (1, 'a', 'b', 1, '', '');
 
 INSERT INTO "user" ("id", "name", "email", "phone_number", "document_id", "birth_date", "referrer_id")
-VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1, 1);
+VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1);
 
 INSERT INTO "user_credential" ("id", "username", "password", "role_id", "user_id") VALUES (1,'user','password', 1, 1);
 
