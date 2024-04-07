@@ -1,6 +1,6 @@
 INSERT INTO "document" ("id", "document_type_id", "document_number", "front_image", "back_image") VALUES (1, 1, '1091683299', '', '');
 
-|INSERT INTO "referrer" ("id", "first_name", "last_name", "document_id", "phone_number", "email") VALUES (1, 'a', 'b', 1, '', '');
+INSERT INTO "referrer" ("id", "first_name", "last_name", "document_id", "phone_number", "email") VALUES (1, 'a', 'b', 1, '', '');
 
 INSERT INTO "user" ("id", "name", "email", "phone_number", "document_id", "birth_date", "referrer_id")
 VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1, 1);
