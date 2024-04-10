@@ -1,11 +1,14 @@
-INSERT INTO "document" ("id", "document_type_id", "document_number", "front_image", "back_image") VALUES (1, 1, '1091683299', '', '');
+INSERT INTO "document" ("id", "document_type_id", "document_number", "front_image", "back_image") 
+VALUES (nextval('document_id_seq'), 1, '1091683299', '', '');
 
-INSERT INTO "reference" ("id", "name", "document_id", "phone_number", "email") VALUES (1, 'a', 1, '', '');
+INSERT INTO "reference" ("id", "name", "document_id", "phone_number", "email") 
+VALUES (nextval('reference_id_seq'), 'a', 1, '', '');
 
 INSERT INTO "profile" ("id", "name", "email", "phone_number", "document_id", "birth_date", "reference_id")
-VALUES (1, 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1);
+VALUES (nextval('profile_id_seq'), 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1);
 
-INSERT INTO "credential" ("id", "username", "password", "role_id", "profile_id") VALUES (1,'user','password', 1, 1);
+INSERT INTO "credential" ("id", "username", "password", "role_id", "profile_id") 
+VALUES (nextval('credential_id_seq'),'user','password', 1, 1);
 
 INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_maintenance")
 VALUES (1, 'Uis', 'NULL', 7.140709, -73.121012, 1,16, TIMESTAMP '2023-05-15 12:04:49.057');
