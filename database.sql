@@ -48,6 +48,9 @@ INSERT INTO "station_status" ("id", "name") VALUES (1, 'OPEN');
 INSERT INTO "station_status" ("id", "name") VALUES (2, 'CLOSE');
 INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MAINTENANCE');
 
+CREATE SEQUENCE 
+  "document_id_seq" START 1;
+
 CREATE TABLE 
   "document" (
     "id" BIGSERIAL PRIMARY KEY,
@@ -58,6 +61,10 @@ CREATE TABLE
     FOREIGN KEY ("document_type_id") references "document_type"("id")
   );
 
+
+CREATE SEQUENCE 
+  "reference_id_seq" START 1;
+
 CREATE TABLE
   "reference" (
     "id" BIGSERIAL PRIMARY KEY,
@@ -67,6 +74,9 @@ CREATE TABLE
     "email" VARCHAR(255),
     FOREIGN KEY ("document_id") references "document"("id")
   );
+
+CREATE SEQUENCE 
+  "profile_id_seq" START 1;
 
 
 CREATE TABLE
@@ -82,6 +92,9 @@ CREATE TABLE
     FOREIGN KEY ("document_id") REFERENCES "document"("id")
   );
 
+CREATE SEQUENCE
+  "credential_id_seq" START 1;
+
 CREATE TABLE
   "credential" (
     "id" BIGSERIAL PRIMARY KEY,
@@ -94,6 +107,10 @@ CREATE TABLE
   );
 
 CREATE INDEX idx_email ON "profile"("email");
+
+
+
+
 
 CREATE TABLE 
   "station" (
