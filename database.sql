@@ -30,7 +30,7 @@ CREATE TABLE
     "name" VARCHAR(255)
   );
 
-INSERT INTO "role" ("name") VALUES ('USER');
+INSERT INTO "role" ("name") VALUES ('profile');
 INSERT INTO "role" ("name") VALUES ('ADMIN');
 
 INSERT INTO "document_type" ("name") VALUES ('CC');
@@ -51,7 +51,7 @@ INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MAINTENANCE');
 CREATE TABLE 
   "document" (
     "id" BIGSERIAL PRIMARY KEY,
-    "document_type_id" int,
+    "document_type_id" INT,
     "document_number" VARCHAR(255),
     "front_image" VARCHAR(255),
     "back_image" VARCHAR(255),
@@ -59,10 +59,9 @@ CREATE TABLE
   );
 
 CREATE TABLE
-  "referrer" (
+  "reference" (
     "id" BIGSERIAL PRIMARY KEY,
-    "first_name" VARCHAR(255),
-    "last_name" VARCHAR(255),
+    "name" VARCHAR(255),
     "document_id" INT,
     "phone_number" VARCHAR(255),
     "email" VARCHAR(255),
@@ -71,30 +70,30 @@ CREATE TABLE
 
 
 CREATE TABLE
-  "user" (
+  "profile" (
     "id" BIGSERIAL PRIMARY KEY,
     "name" VARCHAR(255),
     "email" VARCHAR(255) UNIQUE,
     "phone_number" VARCHAR(255),
-    "document_id" INT,
+    "document_id" BIGINT,
     "birth_date" DATE,
-    "referrer_id" INT,
-    FOREIGN KEY ("referrer_id") REFERENCES "referrer"("id"),
+    "reference_id" BIGINT,
+    FOREIGN KEY ("reference_id") REFERENCES "reference"("id"),
     FOREIGN KEY ("document_id") REFERENCES "document"("id")
   );
 
 CREATE TABLE
-  "user_credential" (
+  "credential" (
     "id" BIGSERIAL PRIMARY KEY,
-    "user_id" BIGINT,
+    "profile_id" BIGINT,
     "username" VARCHAR(255) UNIQUE,
     "password" VARCHAR(255),
     "role_id" INT,
     FOREIGN KEY ("role_id") REFERENCES "role"("id"),
-    FOREIGN KEY ("user_id") REFERENCES "user"("id")
+    FOREIGN KEY ("profile_id") REFERENCES "profile"("id")
   );
 
-CREATE INDEX idx_email ON "user"("email");
+CREATE INDEX idx_email ON "profile"("email");
 
 CREATE TABLE 
   "station" (
@@ -125,16 +124,16 @@ CREATE TABLE
 CREATE TABLE
   "trip" (
     "id" BIGSERIAL PRIMARY KEY,
-    "user_id" INT,
-    "vehicle_id" INT,
+    "profile_id" BIGINT,
+    "vehicle_id" BIGINT,
     "start_date" TIMESTAMP,
     "end_date" TIMESTAMP,
-    "start_station_id" INT,
-    "end_station_id" INT,
+    "start_station_id" BIGINT,
+    "end_station_id" BIGINT,
     "price" DECIMAL(5,2),
     "points" INT,
     "comments" TEXT,
-    FOREIGN KEY ("user_id") REFERENCES "user"("id"),
+    FOREIGN KEY ("profile_id") REFERENCES "profile"("id"),
     FOREIGN KEY ("vehicle_id") REFERENCES "vehicle"("id"),
     FOREIGN KEY ("start_station_id") REFERENCES "station"("id"),
     FOREIGN KEY ("end_station_id") REFERENCES "station"("id")
@@ -143,7 +142,7 @@ CREATE TABLE
 CREATE TABLE
   "trip_point" (
     "id" BIGSERIAL PRIMARY KEY,
-    "trip_id" INT,
+    "trip_id" BIGINT,
     "latitude" DECIMAL(9,6),
     "longitude" DECIMAL(9,6),
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -153,7 +152,7 @@ CREATE TABLE
 CREATE TABLE
   "geojson" (
     "id" BIGSERIAL PRIMARY KEY,
-    "trip_id" INT,
+    "trip_id" BIGINT,
     "geojson" JSON,
     FOREIGN KEY ("trip_id") REFERENCES "trip"("id")
   );
