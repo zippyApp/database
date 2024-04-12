@@ -30,7 +30,7 @@ CREATE TABLE
     "name" VARCHAR(255)
   );
 
-INSERT INTO "role" ("name") VALUES ('profile');
+INSERT INTO "role" ("name") VALUES ('personal_information');
 INSERT INTO "role" ("name") VALUES ('ADMIN');
 
 INSERT INTO "document_type" ("name") VALUES ('CC');
@@ -55,7 +55,7 @@ CREATE TABLE
   "document" (
     "id" BIGSERIAL PRIMARY KEY,
     "document_type_id" INT,
-    "document_number" VARCHAR(255),
+    "document_number" VARCHAR(255) UNIQUE,
     "front_image" VARCHAR(255),
     "back_image" VARCHAR(255),
     FOREIGN KEY ("document_type_id") references "document_type"("id")
@@ -76,14 +76,16 @@ CREATE TABLE
   );
 
 CREATE SEQUENCE 
-  "profile_id_seq" START 1;
+  "personal_information_id_seq" START 1;
 
 
 CREATE TABLE
-  "profile" (
+  "personal_information" (
     "id" BIGSERIAL PRIMARY KEY,
-    "name" VARCHAR(255),
+    "first_names" VARCHAR(255),
+    "last_names" VARCHAR(255),
     "email" VARCHAR(255) UNIQUE,
+    "occupation" VARCHAR(255),
     "phone_number" VARCHAR(255),
     "document_id" BIGINT,
     "birth_date" DATE,
@@ -98,19 +100,15 @@ CREATE SEQUENCE
 CREATE TABLE
   "credential" (
     "id" BIGSERIAL PRIMARY KEY,
-    "profile_id" BIGINT,
+    "personal_information_id" BIGINT,
     "username" VARCHAR(255) UNIQUE,
     "password" VARCHAR(255),
     "role_id" INT,
     FOREIGN KEY ("role_id") REFERENCES "role"("id"),
-    FOREIGN KEY ("profile_id") REFERENCES "profile"("id")
+    FOREIGN KEY ("personal_information_id") REFERENCES "personal_information"("id")
   );
 
-CREATE INDEX idx_email ON "profile"("email");
-
-
-
-
+CREATE INDEX idx_email ON "personal_information"("email");
 
 CREATE TABLE 
   "station" (
@@ -141,7 +139,7 @@ CREATE TABLE
 CREATE TABLE
   "trip" (
     "id" BIGSERIAL PRIMARY KEY,
-    "profile_id" BIGINT,
+    "personal_information_id" BIGINT,
     "vehicle_id" BIGINT,
     "start_date" TIMESTAMP,
     "end_date" TIMESTAMP,
@@ -150,7 +148,7 @@ CREATE TABLE
     "price" DECIMAL(5,2),
     "points" INT,
     "comments" TEXT,
-    FOREIGN KEY ("profile_id") REFERENCES "profile"("id"),
+    FOREIGN KEY ("personal_information_id") REFERENCES "personal_information"("id"),
     FOREIGN KEY ("vehicle_id") REFERENCES "vehicle"("id"),
     FOREIGN KEY ("start_station_id") REFERENCES "station"("id"),
     FOREIGN KEY ("end_station_id") REFERENCES "station"("id")

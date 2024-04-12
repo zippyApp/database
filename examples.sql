@@ -4,10 +4,10 @@ VALUES (nextval('document_id_seq'), 1, '1091683299', '', '');
 INSERT INTO "reference" ("id", "name", "document_id", "phone_number", "email") 
 VALUES (nextval('reference_id_seq'), 'a', 1, '', '');
 
-INSERT INTO "profile" ("id", "name", "email", "phone_number", "document_id", "birth_date", "reference_id")
-VALUES (nextval('profile_id_seq'), 'admin', 'admin@example.com', '3716238127', 1, '2000-01-01', 1);
+INSERT INTO "personal_information" ("id", "first_names","last_names","occupation" , "email", "phone_number", "document_id", "birth_date", "reference_id")
+VALUES (nextval('personal_information_id_seq'), 'Juan','Perez', 'estudiante','admin@example.com', '3716238127', 1, '2000-01-01', 1);
 
-INSERT INTO "credential" ("id", "username", "password", "role_id", "profile_id") 
+INSERT INTO "credential" ("id", "username", "password", "role_id", "personal_information_id") 
 VALUES (nextval('credential_id_seq'),'user','password', 1, 1);
 
 INSERT INTO "station" ("id", "name", "address", "latitude", "longitude", "station_status_id", "capacity", "last_maintenance")
@@ -27,5 +27,5 @@ VALUES (2, 2, false, 0, 1);
 INSERT INTO "vehicle" ("vehicle_type_id", "vehicle_status_id", "electric", "battery", "station_id")
 VALUES (2, 1, true, 21, 2);
 
-INSERT INTO "trip" ("id", "profile_id", "vehicle_id", "start_date", "end_date", "start_station_id", "end_station_id", "price", "points", "comments")
+INSERT INTO "trip" ("id", "personal_information_id", "vehicle_id", "start_date", "end_date", "start_station_id", "end_station_id", "price", "points", "comments")
 VALUES (1, 1, 1, TIMESTAMP '2023-05-15 12:04:49.057', TIMESTAMP '2023-05-15 12:07:21.428', 1, 2, 10, 5, 'NULL');
