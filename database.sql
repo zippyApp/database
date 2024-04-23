@@ -92,7 +92,8 @@ CREATE SEQUENCE
 CREATE TABLE
   "reference" (
     "id" BIGSERIAL PRIMARY KEY,
-    "name" VARCHAR(255),
+    "first_names" VARCHAR(255),
+    "last_names" VARCHAR(255),
     "document_id" INT,
     "phone_number" VARCHAR(255),
     "email" VARCHAR(255),

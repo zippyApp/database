@@ -1,8 +1,8 @@
 INSERT INTO "document" ("id", "document_type_id", "document_number", "front_image", "back_image") 
 VALUES (nextval('document_id_seq'), 1, '1091683299', '', '');
 
-INSERT INTO "reference" ("id", "name", "document_id", "phone_number", "email") 
-VALUES (nextval('reference_id_seq'), 'a', 1, '', '');
+INSERT INTO "reference" ("id", "first_names", "last_names", "document_id", "phone_number", "email") 
+VALUES (nextval('reference_id_seq'), 'Juan', 'Jerez', 1, '3142032321', 'juanjerez@hotmail.com');
 
 INSERT INTO "personal_information" ("id", "first_names","last_names","occupation" , "email", "phone_number", "document_id", "birth_date", "reference_id")
 VALUES (nextval('personal_information_id_seq'), 'Juan','Perez', 'estudiante','admin@example.com', '3716238127', 1, '2000-01-01', 1);
