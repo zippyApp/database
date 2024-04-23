@@ -30,6 +30,26 @@ CREATE TABLE
     "name" VARCHAR(255)
   );
 
+CREATE TABLE
+  "trip_status" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+  "trip_type" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255)
+  );
+
+CREATE TABLE
+"routes" (
+  "id" SERIAL PRIMARY KEY,
+  "id_estacion_origen" VARCHAR(255),
+  "id_estacion_destino" VARCHAR(255),
+  "id_DirectionsResponse" JSON,
+);
+
 INSERT INTO "role" ("name") VALUES ('profile');
 INSERT INTO "role" ("name") VALUES ('ADMIN');
 
@@ -47,6 +67,18 @@ INSERT INTO "vehicle_status" ("name") VALUES ('UNAVAILABLE');
 INSERT INTO "station_status" ("id", "name") VALUES (1, 'OPEN');
 INSERT INTO "station_status" ("id", "name") VALUES (2, 'CLOSE');
 INSERT INTO "station_status" ("id", "name") VALUES (3, 'IN_MAINTENANCE');
+
+INSERT INTO "trip_status" ("id", "name") VALUES 
+(1, 'RESERVED'),
+(2, 'WAITING_APPROVAL'),
+(3, 'IN_PROGRESS'),
+(4, 'COMPLETED'),
+(5, 'CANCELED_BY_USER'),
+(6, 'CANCELED_BY_SYSTEM');
+
+INSERT INTO "trip_type" ("id", "name") VALUES 
+(1, 'RESERVED_TRIP'),
+(2, 'INSTANT_TRIP');
 
 CREATE SEQUENCE 
   "document_id_seq" START 1;
@@ -141,19 +173,25 @@ CREATE TABLE
 CREATE TABLE
   "trip" (
     "id" BIGSERIAL PRIMARY KEY,
+    "trip_type_id" BIGINT,
+    "trip_status_id" BIGINT,
     "profile_id" BIGINT,
     "vehicle_id" BIGINT,
-    "start_date" TIMESTAMP,
-    "end_date" TIMESTAMP,
     "start_station_id" BIGINT,
     "end_station_id" BIGINT,
-    "price" DECIMAL(5,2),
-    "points" INT,
+    "cost" DECIMAL(6,2),
+    "reservation_date"  TIMESTAMP,
+    "waiting_approval_date" TIMESTAMP,
+    "start_date" TIMESTAMP,
+    "end_date" TIMESTAMP,
+    "calification" INT,
     "comments" TEXT,
     FOREIGN KEY ("profile_id") REFERENCES "profile"("id"),
     FOREIGN KEY ("vehicle_id") REFERENCES "vehicle"("id"),
     FOREIGN KEY ("start_station_id") REFERENCES "station"("id"),
-    FOREIGN KEY ("end_station_id") REFERENCES "station"("id")
+    FOREIGN KEY ("end_station_id") REFERENCES "station"("id"),
+    FOREIGN KEY ("trip_status_id") REFERENCES "trip_status"("id"),
+    FOREIGN KEY ("trip_type_id") REFERENCES "trip_type"("id")
   );
 
 CREATE TABLE
