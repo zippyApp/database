@@ -54,7 +54,10 @@ INSERT INTO "vehicle_type" ("name") VALUES ('BIKE');
 INSERT INTO "vehicle_type" ("name") VALUES ('SCOOTER');
 
 INSERT INTO "vehicle_status" ("name") VALUES ('AVAILABLE');
-INSERT INTO "vehicle_status" ("name") VALUES ('UNAVAILABLE');
+INSERT INTO "vehicle_status" ("name") VALUES ('ON_TRIP');
+INSERT INTO "vehicle_status" ("name") VALUES ('DISCHARGED');
+INSERT INTO "vehicle_status" ("name") VALUES ('ON_MAINTENANCE');
+
 
 INSERT INTO "station_status" ("id", "name") VALUES (1, 'OPEN');
 INSERT INTO "station_status" ("id", "name") VALUES (2, 'CLOSE');
@@ -186,21 +189,15 @@ CREATE TABLE
   );
 
 CREATE TABLE
-  "trip_point" (
+  "routes" (
     "id" BIGSERIAL PRIMARY KEY,
-    "trip_id" BIGINT,
-    "latitude" DECIMAL(9,6),
-    "longitude" DECIMAL(9,6),
-    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY ("trip_id") REFERENCES "trip"("id")
-  );
-
-CREATE TABLE
-  "geojson" (
-    "id" BIGSERIAL PRIMARY KEY,
-    "trip_id" BIGINT,
-    "geojson" JSON,
-    FOREIGN KEY ("trip_id") REFERENCES "trip"("id")
+    "origin_station_id" BIGINT,
+    "destination_station_id" BIGINT,
+    "distance" DECIMAL(6,2),
+    "duration" INT,
+    "direction_response" JSON,
+    FOREIGN KEY ("origin_station_id") REFERENCES "station"("id"),
+    FOREIGN KEY ("destination_station_id") REFERENCES "station"("id")
   );
 
 --DROP SCHEMA IF EXISTS public CASCADE;
