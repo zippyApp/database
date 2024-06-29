@@ -178,7 +178,7 @@ CREATE TABLE
     "waiting_approval_date" TIMESTAMP,
     "start_date" TIMESTAMP,
     "end_date" TIMESTAMP,
-    "calification" INT,
+    "score" INT,
     "comments" TEXT,
     FOREIGN KEY ("personal_information_id") REFERENCES "personal_information"("id"),
     FOREIGN KEY ("vehicle_id") REFERENCES "vehicle"("id"),
