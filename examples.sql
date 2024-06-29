@@ -32,5 +32,5 @@ VALUES (2, 2, false, 0, 1);
 INSERT INTO "vehicle" ("vehicle_type_id", "vehicle_status_id", "electric", "battery", "station_id")
 VALUES (2, 1, true, 21, 2);
 
-INSERT INTO "trip" ("id", "personal_information_id", "vehicle_id", "start_date", "end_date", "start_station_id", "end_station_id", "cost", "calification", "comments")
+INSERT INTO "trip" ("id", "personal_information_id", "vehicle_id", "start_date", "end_date", "start_station_id", "end_station_id", "cost", "score", "comments")
 VALUES (1, 1, 1, TIMESTAMP '2023-05-15 12:04:49.057', TIMESTAMP '2023-05-15 12:07:21.428', 1, 2, 10, 5, 'NULL');
