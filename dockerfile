@@ -1,5 +1,5 @@
 # Use the official PostgreSQL image from Docker Hub
-FROM postgres:latest
+FROM postgres:16-alpine
 
 # Set environment variables for PostgreSQL database
 ENV POSTGRES_USER=test
