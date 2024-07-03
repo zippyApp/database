@@ -54,6 +54,7 @@ INSERT INTO "vehicle_type" ("name") VALUES ('BIKE');
 INSERT INTO "vehicle_type" ("name") VALUES ('SCOOTER');
 
 INSERT INTO "vehicle_status" ("name") VALUES ('AVAILABLE');
+INSERT INTO "vehicle_status" ("name") VALUES ('RESERVED');
 INSERT INTO "vehicle_status" ("name") VALUES ('ON_TRIP');
 INSERT INTO "vehicle_status" ("name") VALUES ('DISCHARGED');
 INSERT INTO "vehicle_status" ("name") VALUES ('ON_MAINTENANCE');
