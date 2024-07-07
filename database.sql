@@ -134,7 +134,7 @@ CREATE TABLE
     "password" VARCHAR(255),
     "role_id" INT,
     FOREIGN KEY ("role_id") REFERENCES "role"("id"),
-    FOREIGN KEY ("personal_information_id") REFERENCES "personal_information"("id")
+    FOREIGN KEY ("personal_information_id") REFERENCES "personal_information"("id") ON DELETE CASCADE
   );
 
 CREATE INDEX idx_email ON "personal_information"("email");
